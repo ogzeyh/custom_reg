@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
+    const router = useRouter();
+
     const LoginSchema = z.object({
     email: z.string().email("Niepoprawny email"),
     password: z.string().min(1, "Hasło jest wymagane")
@@ -33,8 +36,10 @@ export default function Register() {
             setError("password", { type: "manual", message: json.error });
             return;
         }
+
+        localStorage.setItem('token', json.token);
         
-        redirect('/dashboard');
+        router.push('/dashboard');
     }
 
     return (

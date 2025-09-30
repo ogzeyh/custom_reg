@@ -21,15 +21,5 @@ export async function POST(req: Request) {
         .setExpirationTime('1h')
         .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
-    const response = NextResponse.json({ message: "Zalogowano" });
-    response.cookies.set({
-        name: "token",
-        value: token,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 3600,
-        path: '/',
-    });
-
-    return response;
+    return NextResponse.json({ token });
 }
